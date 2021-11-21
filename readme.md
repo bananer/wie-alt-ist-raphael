@@ -1,6 +1,6 @@
 # Wie alt ist Raphael?
 
-Toying with [ES Temporal proposal](https://tc39.es/proposal-temporal/) to find out how old my son is.
+Toying with [ES Temporal proposal](https://tc39.es/proposal-temporal/docs/) to find out how old my son is.
 
 Built with [Vite](https://vitejs.dev).
 
