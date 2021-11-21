@@ -1,0 +1,25 @@
+body {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: rgb(5, 196, 199);
+  background-color: rgb(30, 34, 34);
+  margin-top: 20px;
+}
+
+#app h1 {
+  font-variant: small-caps;
+  font-style: italic;
+}
+
+#durations {
+  list-style-type: none;
+}
+
+#durations li:not(:last-of-type)::after {
+  font-size: smaller;
+  content: "oder";
+  display: block;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
