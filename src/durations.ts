@@ -47,4 +47,7 @@ const ageDays = birth.until(now, {
 })
 durations.push(fmt(ageDays, ['days', 'hours', 'minutes']));
 
+const totalYears = birth.until(now).total({ unit: 'years', relativeTo: birth })
+durations.push(`${totalYears.toLocaleString('de')} Jahre`)
+
 export { durations }
