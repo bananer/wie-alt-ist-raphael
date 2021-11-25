@@ -1,10 +1,18 @@
 import './style.css'
-import { durations } from './durations'
+import { durations, dates } from './facts'
 
-const durationsEl = document.querySelector<HTMLDivElement>('#durations')!
 
-durations.forEach(d => {
-  const el = document.createElement("li")
-  el.innerText = d
-  durationsEl.appendChild(el)
-})
+function fill(container: HTMLElement, type: keyof HTMLElementTagNameMap, entries: string[]) {
+  entries.forEach(d => {
+    const el = document.createElement(type)
+    el.innerText = d
+    container.appendChild(el)
+  })
+}
+
+
+const durationsEl = document.querySelector<HTMLUListElement>('#durations')!
+fill(durationsEl, 'li', durations)
+
+const datesEl = document.querySelector<HTMLUListElement>('#dates')!
+fill(datesEl, 'li', dates)

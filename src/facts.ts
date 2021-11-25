@@ -11,11 +11,11 @@ const birth = Temporal.ZonedDateTime.from({
 })
 const now = Temporal.Now.zonedDateTimeISO(timeZone)
 
-
+// calculate durations
 const durations: string[] = []
 
 type Unit = ('years'|'months'|'weeks'|'days'|'hours'|'minutes'|'seconds')
-const fieldNames: { [k in Unit]: [string, string] } = {
+const unitNames: { [k in Unit]: [string, string] } = {
     years: ['Jahr', 'Jahre'],
     months: ['Monat', 'Monate'],
     weeks: ['Woche', 'Wochen'],
@@ -25,10 +25,14 @@ const fieldNames: { [k in Unit]: [string, string] } = {
     seconds: ['Sekunde', 'Sekunden'],
 }
 
-function fmt(duration: Temporal.Duration, fields: Unit[]) {
-    return fields.map(f => {
+function unitName(u: Unit, val: number) {
+    return unitNames[u]![val == 1 ? 0 : 1]
+}
+
+function fmt(duration: Temporal.Duration, units: Unit[]) {
+    return units.map(f => {
         const val = duration[f];
-        return `${val} ${fieldNames[f]![val == 1 ? 0 : 1]}`
+        return `${val} ${unitName(f, val)}`
     }).join(", ")
 }
 
@@ -50,4 +54,20 @@ durations.push(fmt(ageDays, ['days', 'hours', 'minutes']));
 const totalYears = birth.until(now).total({ unit: 'years', relativeTo: birth })
 durations.push(`${totalYears.toLocaleString('de')} Jahre`)
 
-export { durations }
+
+// calculate cool dates
+const d: [Unit, number][] = [
+    ["seconds", 10_000_000],
+    ["hours",   10_000],
+    ["minutes", 1_000_000],
+    ["weeks",   100],
+    ["days",    1000],
+]
+
+const dates: string[] = d.map(([unit, count]) => count.toLocaleString('de') + ' ' +
+    unitName(unit, count) + ' alt: ' +
+    birth.add(Temporal.Duration.from({[unit]: count})).toLocaleString('de')
+)
+
+
+export { durations, dates }
