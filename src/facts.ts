@@ -1,4 +1,6 @@
 import { Temporal } from "@js-temporal/polyfill"
+import { formatAnniversary, formatDuration, locale, unitName } from "./l10n"
+import { TemporalUnit } from "./temporal-units"
 
 const timeZone = 'Europe/Berlin'
 const birth = Temporal.ZonedDateTime.from({
@@ -14,49 +16,27 @@ const now = Temporal.Now.zonedDateTimeISO(timeZone)
 // calculate durations
 const durations: string[] = []
 
-type Unit = ('years'|'months'|'weeks'|'days'|'hours'|'minutes'|'seconds')
-const unitNames: { [k in Unit]: [string, string] } = {
-    years: ['Jahr', 'Jahre'],
-    months: ['Monat', 'Monate'],
-    weeks: ['Woche', 'Wochen'],
-    days: ['Tag', 'Tage'],
-    hours: ['Stunde', 'Stunden'],
-    minutes: ['Minute', 'Minuten'],
-    seconds: ['Sekunde', 'Sekunden'],
-}
-
-function unitName(u: Unit, val: number) {
-    return unitNames[u]![val == 1 ? 0 : 1]
-}
-
-function fmt(duration: Temporal.Duration, units: Unit[]) {
-    return units.map(f => {
-        const val = duration[f];
-        return `${val} ${unitName(f, val)}`
-    }).join(", ")
-}
-
 const ageFull = birth.until(now, {
     largestUnit: 'years',
 })
-durations.push(fmt(ageFull, ['years', 'months', 'days']));
+durations.push(formatDuration(ageFull, ['years', 'months', 'days']));
 
 const ageWeeks = birth.until(now, {
     largestUnit: 'weeks',
 })
-durations.push(fmt(ageWeeks, ['weeks', 'days']));
+durations.push(formatDuration(ageWeeks, ['weeks', 'days']));
 
 const ageDays = birth.until(now, {
     largestUnit: 'days',
 })
-durations.push(fmt(ageDays, ['days', 'hours', 'minutes']));
+durations.push(formatDuration(ageDays, ['days', 'hours', 'minutes']));
 
 const totalYears = birth.until(now).total({ unit: 'years', relativeTo: birth })
-durations.push(`${totalYears.toLocaleString('de')} Jahre`)
+durations.push(totalYears.toLocaleString(locale) + ' ' + unitName('years', totalYears))
 
 
 // calculate cool dates
-const d: [Unit, number][] = [
+const d: [TemporalUnit, number][] = [
     ["seconds", 10_000_000],
     ["hours",   10_000],
     ["minutes", 1_000_000],
@@ -64,10 +44,8 @@ const d: [Unit, number][] = [
     ["days",    1000],
 ]
 
-const dates: string[] = d.map(([unit, count]) => count.toLocaleString('de') + ' ' +
-    unitName(unit, count) + ' alt: ' +
-    birth.add(Temporal.Duration.from({[unit]: count})).toLocaleString('de')
+const dates: string[] = d.map(([unit, count]) =>
+    formatAnniversary(unit, count, birth.add(Temporal.Duration.from({ [unit]: count })))
 )
-
 
 export { durations, dates }
