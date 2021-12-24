@@ -27,3 +27,18 @@ ul {
 #dates li {
   padding-bottom: 12px;
 }
+
+.github-banner {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+.github-banner img {
+  width: 149px;
+  height: 149px;
+}
+
+#app h1:first-of-type {
+  margin-right: 90px;
+}
