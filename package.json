@@ -11,6 +11,6 @@
     "vite": "^2.9.14"
   },
   "dependencies": {
-    "@js-temporal/polyfill": "^0.4.1"
+    "@js-temporal/polyfill": "^0.4.2"
   }
 }
