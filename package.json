@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "typescript": "^4.8.2",
-    "vite": "^2.9.14"
+    "vite": "^3.0.9"
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.2"
